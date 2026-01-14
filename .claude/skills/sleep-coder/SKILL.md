@@ -196,8 +196,43 @@ git pull origin <demand_branch>
 ## Step 6：提交 Codex Cloud
 
 ```bash
-codex cloud exec --env "$CODEX_ENV_ID" "$(cat $DOCS_DIR/.sdcl/prompt_TASK-x.txt)"
+# 记录提交前的最新 commit
+BEFORE_COMMIT=$(git rev-parse origin/$BRANCH)
+
+# 提交任务
+codex cloud exec --env "$CODEX_ENV_ID" --branch "$BRANCH" "$(cat $DOCS_DIR/.sdcl/prompt_TASK-x.txt)"
 ```
+
+---
+
+## Step 6.5：后台轮询等待 Codex 完成（无人值守）
+
+使用 Bash 的 `run_in_background` 参数启动轮询脚本，避免阻塞和用户确认：
+
+```bash
+# 后台轮询脚本（使用 run_in_background=true）
+BRANCH="<demand_branch>"
+BEFORE_COMMIT="<提交前的commit>"
+MAX_WAIT=600  # 最多等待10分钟
+INTERVAL=30   # 每30秒检查一次
+
+for i in $(seq 1 $((MAX_WAIT/INTERVAL))); do
+  sleep $INTERVAL
+  git fetch origin
+  CURRENT=$(git rev-parse origin/$BRANCH)
+  if [ "$CURRENT" != "$BEFORE_COMMIT" ]; then
+    echo "CODEX_COMPLETED: new commit detected"
+    git pull origin $BRANCH
+    exit 0
+  fi
+done
+echo "CODEX_TIMEOUT: no new commit after ${MAX_WAIT}s"
+exit 1
+```
+
+Claude 使用 `TaskOutput` 工具读取后台任务结果：
+- 检测到 `CODEX_COMPLETED` → 进入 Step 7 验收
+- 检测到 `CODEX_TIMEOUT` → 重试或报告失败
 
 ---
 
