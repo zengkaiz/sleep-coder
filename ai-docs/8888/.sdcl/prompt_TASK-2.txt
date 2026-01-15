@@ -1,0 +1,35 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature/8888-20260115-113024
+git pull origin feature/8888-20260115-113024
+
+## 约束
+- 只允许在需求分支 feature/8888-20260115-113024 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature/8888-20260115-113024
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-2
+
+## 任务描述
+TASK-2: 初始化 Next.js 项目
+
+1. 使用 create-next-app 创建项目（在当前目录），配置：
+   - TypeScript
+   - Tailwind CSS
+   - App Router (src目录)
+   - 不使用ESLint
+
+2. 清理默认模板代码：
+   - 保留基本的 layout.tsx 结构
+   - 清空 page.tsx 内容，只保留简单的占位内容
+
+3. 目录结构应为：
+```
+src/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+```
+
+4. 确保 `pnpm dev` 可正常启动
+
+完成后提交并推送。
