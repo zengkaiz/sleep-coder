@@ -190,25 +190,21 @@ test -f "$DOCS_DIR/SPEC.md" && test -f "$DOCS_DIR/PLAN.md"
 
 ---
 
-## Step 3：创建 / 复用需求分支（本地）
+## Step 3：读取当前分支信息
+
+**注意**：分支由用户手动创建并切换，Claude 不负责创建/切换分支。
 
 ```bash
 DOCS_DIR="ai-docs/$DEMAND_ID"
 STATE="$DOCS_DIR/.sdcl/state.json"
-DEFAULT=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
 REPO_URL=$(git remote get-url origin)
+BRANCH=$(git branch --show-current)
 
+# 初始化 state.json（如果不存在）
 if [ ! -f "$STATE" ]; then
-  mkdir -p "$DOCS_DIR/.sdcl"
-  BRANCH=feature/$DEMAND_ID-$(date +%Y%m%d-%H%M%S)
-  git checkout $DEFAULT
-  git checkout -b $BRANCH
-  # 注意：不在这里 push，统一在 Step 6 push
+  mkdir -p "$DOCS_DIR/.sdcl/logs"
   echo '{"demand_id":"'$DEMAND_ID'","demand_branch":"'$BRANCH'","repo_url":"'$REPO_URL'","attempt":0}' > $STATE
   git add $STATE && git commit -m "[$DEMAND_ID] init state.json"
-else
-  BRANCH=$(jq -r .demand_branch $STATE)
-  git checkout $BRANCH
 fi
 ```
 
@@ -318,8 +314,9 @@ PASS：
 
 ```bash
 sed -i '' "${LINE}s/- \[ \]/- [x]/" "$PLAN_FILE"
-git add $DOCS_DIR/.sdcl/review_TASK-x.txt  # 添加验收报告
-git commit -am "[$DEMAND_ID] mark $TASK done"
+git add "$PLAN_FILE"
+git commit -m "[$DEMAND_ID] mark $TASK done"
+# 注意：review 文件仅本地保留，不提交（Codex Cloud 不关注）
 # 注意：不在这里 push，在下一个 TASK 的 Step 6 一起 push
 ```
 
