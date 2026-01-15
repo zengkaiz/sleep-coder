@@ -1,0 +1,27 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature/8888-20260115-135844
+git pull origin feature/8888-20260115-135844
+
+## 约束
+- 只允许在需求分支 feature/8888-20260115-135844 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature/8888-20260115-135844
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-1
+
+## 任务描述
+**TASK-1**: 安装 next
+
+### 具体步骤
+1. 使用 pnpm 初始化项目（如果尚未初始化）
+2. 安装 next react react-dom 包
+3. 确保 package.json 中包含这些依赖
+
+### 验收标准
+- package.json 存在且包含 next, react, react-dom 依赖
+- pnpm-lock.yaml 已生成
+
+### 完成后
+- git add .
+- git commit -m "[8888] TASK-1: install next"
+- git push origin feature/8888-20260115-135844
+- 输出: SDCL_DONE: TASK-1
