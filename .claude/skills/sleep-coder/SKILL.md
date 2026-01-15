@@ -114,12 +114,12 @@ Claude 根据需求内容生成：
    - 每个 TASK 包含具体的子任务说明
    - TASK 粒度适中，单个 TASK 应可在一次 Codex 执行中完成
 
-生成后提交：
+生成后本地提交（不 push）：
 
 ```bash
 git add "$DOCS_DIR"
 git commit -m "[$DEMAND_ID] init SPEC.md and PLAN.md"
-git push
+# 注意：不在这里 push，统一在 Step 6 push
 ```
 
 ---
@@ -136,25 +136,26 @@ test -f "$DOCS_DIR/SPEC.md" && test -f "$DOCS_DIR/PLAN.md"
 
 ---
 
-## Step 3：创建 / 复用需求分支
+## Step 3：创建 / 复用需求分支（本地）
 
 ```bash
 DOCS_DIR="ai-docs/$DEMAND_ID"
 STATE="$DOCS_DIR/.sdcl/state.json"
 DEFAULT=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+REPO_URL=$(git remote get-url origin)
 
 if [ ! -f "$STATE" ]; then
   mkdir -p "$DOCS_DIR/.sdcl"
   BRANCH=feature/$DEMAND_ID-$(date +%Y%m%d-%H%M%S)
   git checkout $DEFAULT
   git checkout -b $BRANCH
-  git push -u origin $BRANCH
-  echo '{"demand_id":"'$DEMAND_ID'","demand_branch":"'$BRANCH'","attempt":0}' > $STATE
+  # 注意：不在这里 push，统一在 Step 6 push
+  echo '{"demand_id":"'$DEMAND_ID'","demand_branch":"'$BRANCH'","repo_url":"'$REPO_URL'","attempt":0}' > $STATE
+  git add $STATE && git commit -m "[$DEMAND_ID] init state.json"
 else
   BRANCH=$(jq -r .demand_branch $STATE)
+  git checkout $BRANCH
 fi
-
-git checkout $BRANCH
 ```
 
 ---
@@ -193,13 +194,22 @@ git pull origin <demand_branch>
 
 ---
 
-## Step 6：提交 Codex Cloud
+## Step 6：Push 并提交 Codex Cloud
+
+这是整个 TASK 周期中唯一的 push 点。
 
 ```bash
-# 记录提交前的最新 commit
-BEFORE_COMMIT=$(git rev-parse origin/$BRANCH)
+# 1. 本地提交 prompt（如果还没提交）
+git add $DOCS_DIR/.sdcl/prompt_TASK-x.txt
+git commit -m "[$DEMAND_ID] add prompt for TASK-x" 2>/dev/null || true
 
-# 提交任务
+# 2. 一次性 push 所有本地提交到远程
+git push -u origin $BRANCH
+
+# 3. 记录 push 后的 commit（供轮询比对）
+BEFORE_COMMIT=$(git rev-parse HEAD)
+
+# 4. 提交 Codex Cloud 任务
 codex cloud exec --env "$CODEX_ENV_ID" --branch "$BRANCH" "$(cat $DOCS_DIR/.sdcl/prompt_TASK-x.txt)"
 ```
 
@@ -250,12 +260,13 @@ PASS：
 
 ---
 
-## Step 8：更新 PLAN.md
+## Step 8：更新 PLAN.md（本地）
 
 ```bash
 sed -i '' "${LINE}s/- \[ \]/- [x]/" "$PLAN_FILE"
+git add $DOCS_DIR/.sdcl/review_TASK-x.txt  # 添加验收报告
 git commit -am "[$DEMAND_ID] mark $TASK done"
-git push
+# 注意：不在这里 push，在下一个 TASK 的 Step 6 一起 push
 ```
 
 ---
