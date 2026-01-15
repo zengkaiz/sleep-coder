@@ -2,30 +2,26 @@
 name: sleep-coder
 description: "Self-Directed Code Loop v3.0 - 单分支 + Claude 验收 Gate 的全自动开发闭环。Claude 负责调度与验收，Codex Cloud 负责编码，每个 task 必须通过 Claude 验收后才能进入下一个。"
 allowedTools:
-  - Bash(git add:*)
-  - Bash(git commit:*)
-  - Bash(git push:*)
-  - Bash(git fetch:*)
-  - Bash(git pull:*)
-  - Bash(git checkout:*)
-  - Bash(git status:*)
-  - Bash(git diff:*)
-  - Bash(git log:*)
-  - Bash(git rev-parse:*)
-  - Bash(git branch:*)
-  - Bash(git remote:*)
-  - Bash(codex:*)
-  - Bash(source:*)
-  - Bash(mkdir:*)
-  - Bash(cat:*)
-  - Bash(sed:*)
-  - Bash(grep:*)
-  - Bash(jq:*)
-  - Bash(ls:*)
-  - Bash(sleep:*)
-  - Bash(for:*)
-  - Bash(echo:*)
-  - Bash(test:*)
+  - Bash(git *)
+  - Bash(codex *)
+  - Bash(codex cloud *)
+  - Bash(codex cloud exec *)
+  - Bash(source *)
+  - Bash(mkdir *)
+  - Bash(cat *)
+  - Bash(ls *)
+  - Bash(sleep *)
+  - Bash(for *)
+  - Bash(echo *)
+  - Bash(DEMAND_ID*)
+  - Bash(BRANCH*)
+  - Bash(BEFORE_COMMIT*)
+  - Bash(MAX_WAIT*)
+  - Bash(PROMPT*)
+  - Bash(DOCS_DIR*)
+  - Bash(REPO_URL*)
+  - Bash(INTERVAL*)
+  - Bash(CURRENT*)
   - Edit
   - Write
   - Read
@@ -259,8 +255,8 @@ git push -u origin $BRANCH
 # 3. 记录 push 后的 commit（供轮询比对）
 BEFORE_COMMIT=$(git rev-parse HEAD)
 
-# 4. 提交 Codex Cloud 任务
-codex cloud exec --env "$CODEX_ENV_ID" --branch "$BRANCH" "$(cat $DOCS_DIR/.sdcl/prompt_TASK-x.txt)"
+# 4. 提交 Codex Cloud 任务（用管道避免命令替换导致的权限问题）
+cat $DOCS_DIR/.sdcl/prompt_TASK-x.txt | codex cloud exec --env "$CODEX_ENV_ID" --branch "$BRANCH" -
 ```
 
 ---
