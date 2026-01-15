@@ -1,6 +1,34 @@
 ---
 name: sleep-coder
 description: "Self-Directed Code Loop v3.0 - 单分支 + Claude 验收 Gate 的全自动开发闭环。Claude 负责调度与验收，Codex Cloud 负责编码，每个 task 必须通过 Claude 验收后才能进入下一个。"
+allowedTools:
+  - Bash(git add:*)
+  - Bash(git commit:*)
+  - Bash(git push:*)
+  - Bash(git fetch:*)
+  - Bash(git pull:*)
+  - Bash(git checkout:*)
+  - Bash(git status:*)
+  - Bash(git diff:*)
+  - Bash(git log:*)
+  - Bash(git rev-parse:*)
+  - Bash(git branch:*)
+  - Bash(git remote:*)
+  - Bash(codex:*)
+  - Bash(source:*)
+  - Bash(mkdir:*)
+  - Bash(cat:*)
+  - Bash(sed:*)
+  - Bash(grep:*)
+  - Bash(jq:*)
+  - Bash(ls:*)
+  - Bash(sleep:*)
+  - Bash(for:*)
+  - Bash(echo:*)
+  - Bash(test:*)
+  - Edit
+  - Write
+  - Read
 ---
 
 # SDCL Mode v3.0
@@ -19,6 +47,32 @@ description: "Self-Directed Code Loop v3.0 - 单分支 + Claude 验收 Gate 的�
 2. 所有 TASK 顺序执行，不允许跳过
 3. Claude 是唯一验收者
 4. 未出现 `SDCL_REVIEW: PASS` 不视为完成
+
+---
+
+## 用户参与 vs 自动化边界
+
+**用户参与阶段**（Step 0-1）：
+- 提供「需求号 + 需求内容」
+- 审核并确认 SPEC.md 和 PLAN.md
+
+**权限预配置**（已通过配置文件自动授权）：
+- 本 Skill 的 `allowedTools` frontmatter 已预授权所有必需操作
+- `.claude/settings.json` 中的 `permissions.allow` 已配置全局权限
+- 无需用户手动授权，进入 Step 2 后完全无人值守
+
+**完全自动化阶段**（Step 2-9）：
+- 用户确认 SPEC/PLAN 后，Claude 自动执行所有后续步骤
+- Claude 持续循环执行 TASK，直到全部完成
+- 使用 `TaskOutput` 阻塞等待 Codex 完成后，立即进入验收
+- 验收通过后立即进入下一个 TASK，不询问用户
+- 只有遇到无法自动解决的错误时才暂停并报告用户
+
+**禁止行为**：
+- 禁止在 TASK 之间询问用户"是否继续"
+- 禁止等待用户确认验收结果
+- 禁止在执行阶段中间暂停请求用户输入
+- 禁止每次操作单独请求权限
 
 ---
 
