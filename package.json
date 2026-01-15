@@ -1,23 +1,23 @@
 {
   "name": "sleep-coder",
-  "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/zengkaiz/sleep-coder#readme",
-  "bugs": {
-    "url": "https://github.com/zengkaiz/sleep-coder/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zengkaiz/sleep-coder.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "next": "^16.1.2"
+    "next": "16.1.2",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
