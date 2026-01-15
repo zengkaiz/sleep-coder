@@ -15,7 +15,7 @@
   - 创建 Header 顶部栏组件
   - 配置根布局 layout.tsx
 
-- [ ] **TASK-4**: 实现首页仪表盘
+- [x] **TASK-4**: 实现首页仪表盘
   - 创建 StatCard 统计卡片组件
   - 创建 ActivityList 活动列表组件
   - 完成首页 page.tsx
@@ -24,3 +24,9 @@
   - 创建 ProfileForm 个人信息表单
   - 创建 SettingsCard 设置卡片组件
   - 完成设置页 settings/page.tsx
+
+
+  - [ ] **TASK-6**: 添加路由等文件，保证页面可访问
+  - 创建 路由等 文件
+  - 解决执行报错，保证页面可访问
+ 
