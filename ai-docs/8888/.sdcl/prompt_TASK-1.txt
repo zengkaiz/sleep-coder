@@ -1,0 +1,48 @@
+## 前置步骤（必须先执行）
+# 1. 配置 git remote（Codex Cloud 沙盒可能没有 origin）
+git remote get-url origin 2>/dev/null || git remote add origin https://github.com/zengkaiz/sleep-coder.git
+
+# 2. 同步分支
+git fetch origin
+git checkout feature/8888-20260115-102817 || git checkout -b feature/8888-20260115-102817 origin/feature/8888-20260115-102817
+git pull origin feature/8888-20260115-102817
+
+## 约束
+- 只允许在需求分支 feature/8888-20260115-102817 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature/8888-20260115-102817
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-1
+
+## 任务描述
+
+**TASK-1**: 初始化 Next.js 项目
+
+### 具体要求：
+
+1. 使用 create-next-app 创建 Next.js 14 项目
+   - 在当前目录初始化（不创建子目录）
+   - 启用 TypeScript
+   - 启用 Tailwind CSS
+   - 使用 App Router
+   - 使用 pnpm 作为包管理器
+
+2. 清理默认模板代码
+   - 清理 src/app/page.tsx 中的默认内容，保留基础结构
+   - 清理 src/app/globals.css 中不需要的样式，保留 Tailwind 指令
+
+3. 验证项目可正常启动
+   - 运行 pnpm dev 确认无错误
+
+### 目录结构参考：
+```
+src/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+```
+
+### 技术栈：
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- pnpm
