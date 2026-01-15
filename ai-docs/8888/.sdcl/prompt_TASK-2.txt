@@ -1,0 +1,32 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature-8888
+git pull origin feature-8888
+
+## 约束
+- 只允许在需求分支 feature-8888 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature-8888
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-2
+
+## 任务描述
+**TASK-2**: 初始化 Next.js 项目
+
+### 具体步骤
+1. 创建 Next.js 14 App Router 项目结构（不使用 create-next-app，手动配置）
+2. 配置 TypeScript（tsconfig.json）
+3. 安装并配置 Tailwind CSS
+4. 创建基础目录结构：src/app/, src/components/, src/lib/
+5. 创建基础 layout.tsx 和 page.tsx
+6. 配置 package.json scripts（dev, build, start）
+
+### 验收标准
+- tsconfig.json 存在且配置正确
+- tailwind.config.js 和 postcss.config.js 存在
+- src/app/layout.tsx 和 src/app/page.tsx 存在
+- pnpm dev 可以正常启动（不需要实际运行，确保配置正确即可）
+
+### 完成后
+- git add .
+- git commit -m "[8888] TASK-2: init Next.js project with TypeScript and Tailwind"
+- git push origin feature-8888
+- 输出: SDCL_DONE: TASK-2
