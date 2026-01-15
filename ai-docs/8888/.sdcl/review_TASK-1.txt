@@ -1,0 +1,15 @@
+SDCL_REVIEW: PASS
+
+SUMMARY:
+- 成功使用 pnpm 安装 next 依赖包
+
+CHECKLIST:
+- [x] package.json 中添加 next 依赖
+- [x] pnpm-lock.yaml 正确更新
+- [x] 代码已提交并推送
+
+MISSING:
+- 无
+
+FIX_INSTRUCTIONS:
+- 无需修复
