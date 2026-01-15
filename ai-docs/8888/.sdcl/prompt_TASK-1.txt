@@ -1,0 +1,40 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature/8888-20260115-103300
+git pull origin feature/8888-20260115-103300
+
+## 约束
+- 只允许在需求分支 feature/8888-20260115-103300 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature/8888-20260115-103300
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-1
+
+## 任务描述
+**TASK-1**: 初始化 Next.js 项目
+
+具体要求：
+1. 使用 create-next-app 创建项目，配置如下：
+   - 项目名称：saas-dashboard
+   - 使用 TypeScript
+   - 使用 Tailwind CSS
+   - 使用 App Router
+   - 使用 pnpm 作为包管理器
+   - 不使用 src/ 目录（使用 app/ 在根目录）
+
+2. 创建命令参考：
+   ```bash
+   pnpm create next-app saas-dashboard --typescript --tailwind --eslint --app --no-src-dir --use-pnpm
+   ```
+
+3. 清理默认模板代码：
+   - 清理 app/page.tsx 中的默认内容，保留基础结构
+   - 清理 app/globals.css 中多余的样式，只保留 Tailwind 指令
+
+4. 验证项目可以正常启动（pnpm dev）
+
+5. 完成后 commit 并 push
+
+## 验收标准
+- saas-dashboard 目录存在
+- package.json 中包含 next、react、typescript、tailwindcss
+- pnpm dev 可正常启动
+- 无 TypeScript 编译错误
