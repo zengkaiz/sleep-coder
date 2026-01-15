@@ -2,7 +2,7 @@
 
 ## 任务列表
 
-- [ ] **TASK-1**: 安装next
+- [x] **TASK-1**: 安装next
   - 仅先安装next
 
 - [ ] **TASK-2**: 初始化 Next.js 项目
