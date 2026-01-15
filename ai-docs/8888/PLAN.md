@@ -5,7 +5,7 @@
 - [x] **TASK-1**: 安装next
   - 仅先安装next
 
-- [ ] **TASK-2**: 初始化 Next.js 项目
+- [x] **TASK-2**: 初始化 Next.js 项目
   - 使用 create-next-app 创建项目
   - 配置 TypeScript + Tailwind CSS
   - 清理默认模板代码
