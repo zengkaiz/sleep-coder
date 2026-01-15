@@ -1,0 +1,46 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature-8888
+git pull origin feature-8888
+
+## 约束
+- 只允许在需求分支 feature-8888 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature-8888
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-5
+
+## 任务描述
+**TASK-5**: 实现设置页面
+
+### 具体步骤
+1. 创建 src/components/settings/ProfileForm.tsx
+   - 头像上传区域（占位）
+   - 用户名输入框
+   - 邮箱输入框
+   - 保存按钮
+
+2. 创建 src/components/settings/SettingsCard.tsx
+   - 通用设置卡片组件
+   - 支持标题、描述、子组件插槽
+
+3. 创建 src/app/settings/page.tsx
+   - 个人信息设置区域
+   - 通知设置（邮件通知开关、推送通知开关）
+   - 安全设置（修改密码入口、两步验证开关）
+
+### UI 规范
+- 主色调：蓝色系 (#3B82F6)
+- 背景色：浅灰 (#F9FAFB)
+- 卡片圆角：8px
+- 开关组件使用 Tailwind 样式
+
+### 验收标准
+- src/components/settings/ProfileForm.tsx 存在
+- src/components/settings/SettingsCard.tsx 存在
+- src/app/settings/page.tsx 存在
+- 页面包含个人信息、通知设置、安全设置三个区域
+
+### 完成后
+- git add .
+- git commit -m "[8888] TASK-5: implement settings page"
+- git push origin feature-8888
+- 输出: SDCL_DONE: TASK-5
