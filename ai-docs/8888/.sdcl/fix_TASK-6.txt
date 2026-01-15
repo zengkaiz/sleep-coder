@@ -1,0 +1,33 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature-8888
+git pull origin feature-8888
+
+## 约束
+- 只允许在需求分支 feature-8888 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature-8888
+- 完成后必须输出：SDCL_DONE: TASK-6-FIX
+
+## 问题描述
+pnpm build 失败，错误信息：
+```
+Error [PageNotFoundError]: Cannot find module for page: /_document
+```
+
+这是因为项目使用 App Router，不需要 pages/_document.tsx。
+
+## 修复步骤
+1. 删除任何 pages 目录下的文件（如果存在）
+2. 确保 next.config.js 没有错误配置
+3. 检查 tsconfig.json 配置是否正确
+4. 运行 pnpm build 验证构建成功
+
+## 验收标准
+- pnpm build 构建成功
+- 无编译错误
+
+## 完成后
+- git add .
+- git commit -m "[8888] TASK-6-FIX: fix build error"
+- git push origin feature-8888
+- 输出: SDCL_DONE: TASK-6-FIX
