@@ -1,0 +1,19 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature/8888-20260115-113024
+git pull origin feature/8888-20260115-113024
+
+## 约束
+- 只允许在需求分支 feature/8888-20260115-113024 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature/8888-20260115-113024
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-1
+
+## 任务描述
+TASK-1: 安装next
+
+仅使用 pnpm 安装 next 依赖包：
+```bash
+pnpm add next
+```
+
+完成后提交并推送。
