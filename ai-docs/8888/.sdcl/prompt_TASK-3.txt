@@ -1,0 +1,45 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature-8888
+git pull origin feature-8888
+
+## 约束
+- 只允许在需求分支 feature-8888 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature-8888
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-3
+
+## 任务描述
+**TASK-3**: 实现布局组件
+
+### 具体步骤
+1. 创建 src/components/layout/Sidebar.tsx
+   - Logo 区域
+   - 导航菜单项：首页（/）、设置（/settings）
+   - 使用 Next.js Link 组件
+   - 响应式折叠支持（移动端可折叠）
+
+2. 创建 src/components/layout/Header.tsx
+   - 页面标题显示
+   - 用户头像/下拉菜单区域
+
+3. 更新 src/app/layout.tsx
+   - 引入 Sidebar 和 Header
+   - 配置整体布局结构
+
+### UI 规范
+- 主色调：蓝色系 (#3B82F6)
+- 背景色：浅灰 (#F9FAFB)
+- 卡片圆角：8px
+- 响应式断点：md (768px), lg (1024px)
+
+### 验收标准
+- src/components/layout/Sidebar.tsx 存在且包含导航链接
+- src/components/layout/Header.tsx 存在
+- src/app/layout.tsx 已集成 Sidebar 和 Header
+- 导航链接可正常点击跳转
+
+### 完成后
+- git add .
+- git commit -m "[8888] TASK-3: implement layout components"
+- git push origin feature-8888
+- 输出: SDCL_DONE: TASK-3
