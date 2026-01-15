@@ -1,0 +1,30 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature-8888
+git pull origin feature-8888
+
+## 约束
+- 只允许在需求分支 feature-8888 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature-8888
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-6
+
+## 任务描述
+**TASK-6**: 添加路由等基本配置文件，保证页面可访问
+
+### 具体步骤
+1. 检查并修复所有 TypeScript 编译错误
+2. 确保 next.config.js 或 next.config.mjs 配置正确
+3. 确保所有页面路由可正常访问（/ 和 /settings）
+4. 运行 pnpm build 确保构建成功
+5. 修复任何运行时报错
+
+### 验收标准
+- pnpm build 构建成功，无错误
+- 所有 TypeScript 类型检查通过
+- 页面可正常访问
+
+### 完成后
+- git add .
+- git commit -m "[8888] TASK-6: fix routing and build issues"
+- git push origin feature-8888
+- 输出: SDCL_DONE: TASK-6
