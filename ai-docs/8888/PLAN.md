@@ -10,7 +10,7 @@
   - 配置 TypeScript + Tailwind CSS
   - 清理默认模板代码
 
-- [ ] **TASK-3**: 实现布局组件
+- [x] **TASK-3**: 实现布局组件
   - 创建 Sidebar 侧边栏组件
   - 创建 Header 顶部栏组件
   - 配置根布局 layout.tsx
