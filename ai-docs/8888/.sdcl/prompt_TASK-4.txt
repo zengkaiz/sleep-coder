@@ -1,0 +1,44 @@
+## 前置步骤（必须先执行）
+git fetch origin
+git checkout feature-8888
+git pull origin feature-8888
+
+## 约束
+- 只允许在需求分支 feature-8888 工作，不得创建任何新分支
+- 完成后必须 commit 并 push 到 origin/feature-8888
+- 完成 TASK 后必须输出：SDCL_DONE: TASK-4
+
+## 任务描述
+**TASK-4**: 实现首页仪表盘
+
+### 具体步骤
+1. 创建 src/components/dashboard/StatCard.tsx
+   - 统计卡片组件，显示标题、数值、图标
+   - 支持不同颜色主题
+
+2. 创建 src/components/dashboard/ActivityList.tsx
+   - 最近活动列表组件
+   - 显示活动类型、描述、时间
+
+3. 更新 src/app/page.tsx
+   - 统计卡片区域（总用户数、活跃用户、总收入、订单数量）
+   - 图表占位区域（收入趋势、用户增长）
+   - 最近活动列表
+
+### UI 规范
+- 主色调：蓝色系 (#3B82F6)
+- 背景色：浅灰 (#F9FAFB)
+- 卡片圆角：8px
+- 使用 mock 数据展示
+
+### 验收标准
+- src/components/dashboard/StatCard.tsx 存在
+- src/components/dashboard/ActivityList.tsx 存在
+- src/app/page.tsx 显示 4 个统计卡片
+- 页面无 TypeScript 编译错误
+
+### 完成后
+- git add .
+- git commit -m "[8888] TASK-4: implement dashboard page"
+- git push origin feature-8888
+- 输出: SDCL_DONE: TASK-4
