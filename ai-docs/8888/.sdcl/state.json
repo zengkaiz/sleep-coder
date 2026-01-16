@@ -1,1 +1,6 @@
-{"demand_id":"8888","demand_branch":"feature-8888","repo_url":"https://github.com/zengkaiz/sleep-coder.git","attempt":0}
+{
+    "demand_id":"8888",
+    "demand_branch":"feature-8888",
+    "repo_url":"https://github.com/zengkaiz/sleep-coder.git",
+    "attempt":0
+}

@@ -2,26 +2,7 @@
 name: sleep-coder
 description: "Self-Directed Code Loop v3.0 - 单分支 + Claude 验收 Gate 的全自动开发闭环。Claude 负责调度与验收，Codex Cloud 负责编码，每个 task 必须通过 Claude 验收后才能进入下一个。"
 allowedTools:
-  - Bash(git *)
-  - Bash(codex *)
-  - Bash(codex cloud *)
-  - Bash(codex cloud exec *)
-  - Bash(source *)
-  - Bash(mkdir *)
-  - Bash(cat *)
-  - Bash(ls *)
-  - Bash(sleep *)
-  - Bash(for *)
-  - Bash(echo *)
-  - Bash(DEMAND_ID*)
-  - Bash(BRANCH*)
-  - Bash(BEFORE_COMMIT*)
-  - Bash(MAX_WAIT*)
-  - Bash(PROMPT*)
-  - Bash(DOCS_DIR*)
-  - Bash(REPO_URL*)
-  - Bash(INTERVAL*)
-  - Bash(CURRENT*)
+  - Bash
   - Edit
   - Write
   - Read
@@ -69,6 +50,44 @@ allowedTools:
 - 禁止等待用户确认验收结果
 - 禁止在执行阶段中间暂停请求用户输入
 - 禁止每次操作单独请求权限
+
+---
+
+## 权限配置注意事项（重要）
+
+Claude Code 的 Bash 权限匹配规则有以下限制，执行时必须遵守：
+
+### 1. 禁止使用 `&&` 或 `||` 复合命令
+`&&` 和 `||` 会导致权限匹配失败。必须分开执行：
+```bash
+# ❌ 错误
+git add file && git commit -m "msg"
+git diff-index --quiet HEAD || exit 1
+
+# ✅ 正确（分开执行）
+git add file
+git commit -m "msg"
+```
+
+### 2. 禁止使用 `$(...)` 命令替换作为参数
+命令替换会导致权限匹配失败。使用管道代替：
+```bash
+# ❌ 错误
+codex cloud exec --branch "$BRANCH" "$(cat prompt.txt)"
+
+# ✅ 正确（用管道）
+cat prompt.txt | codex cloud exec --branch "$BRANCH" -
+```
+
+### 3. 权限按命令开头匹配
+`Bash(git *)` 只匹配以 `git ` 开头的命令。变量赋值开头的命令需要单独配置：
+```bash
+# 需要配置 Bash(DEMAND_ID*) 才能执行
+DEMAND_ID="8888"
+```
+
+### 4. settings.json 和 SKILL.md 必须同步
+两个文件的权限列表必须保持一致。修改一个时必须同步修改另一个。
 
 ---
 
@@ -133,7 +152,9 @@ FIX_INSTRUCTIONS:
 ## Step 0：同步本地修改
 
 ```bash
-git diff-index --quiet HEAD || exit 1
+# 检查是否有未提交的修改（分开执行，避免 || 复合命令）
+git diff-index --quiet HEAD
+# 如果上面命令失败（有修改），需要先提交
 git push
 ```
 
@@ -181,7 +202,8 @@ source .codex-env
 # DEMAND_ID 从用户输入或 state.json 获取
 DEMAND_ID=${DEMAND_ID:-$(jq -r .demand_id ai-docs/*/.sdcl/state.json 2>/dev/null | head -1)}
 DOCS_DIR="ai-docs/$DEMAND_ID"
-test -f "$DOCS_DIR/SPEC.md" && test -f "$DOCS_DIR/PLAN.md"
+test -f "$DOCS_DIR/SPEC.md"
+test -f "$DOCS_DIR/PLAN.md"
 ```
 
 ---
@@ -200,7 +222,8 @@ BRANCH=$(git branch --show-current)
 if [ ! -f "$STATE" ]; then
   mkdir -p "$DOCS_DIR/.sdcl/logs"
   echo '{"demand_id":"'$DEMAND_ID'","demand_branch":"'$BRANCH'","repo_url":"'$REPO_URL'","attempt":0}' > $STATE
-  git add $STATE && git commit -m "[$DEMAND_ID] init state.json"
+  git add $STATE
+  git commit -m "[$DEMAND_ID] init state.json"
 fi
 ```
 
@@ -245,9 +268,9 @@ git pull origin <demand_branch>
 这是整个 TASK 周期中唯一的 push 点。
 
 ```bash
-# 1. 本地提交 prompt（如果还没提交）
+# 1. 本地提交 prompt（如果还没提交，commit 可能失败可忽略）
 git add $DOCS_DIR/.sdcl/prompt_TASK-x.txt
-git commit -m "[$DEMAND_ID] add prompt for TASK-x" 2>/dev/null || true
+git commit -m "[$DEMAND_ID] add prompt for TASK-x"
 
 # 2. 一次性 push 所有本地提交到远程
 git push -u origin $BRANCH

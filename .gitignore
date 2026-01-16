@@ -2,3 +2,5 @@ node_modules/
 .next/
 pages/
 src/pages/
+
+.codex-env
