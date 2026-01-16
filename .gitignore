@@ -1,6 +1,11 @@
 node_modules/
 .next/
-pages/
-src/pages/
+
+# 忽略 .sdcl 运行时目录（prompt、review、fix 等临时文件）
+ai-docs/**/.sdcl/
+
+# 保留 SPEC.md 和 PLAN.md（Codex Cloud 需要读取）
 
 .codex-env
+
+error.log
